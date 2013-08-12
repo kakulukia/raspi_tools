@@ -37,6 +37,7 @@ class Command(BaseCommand):
             return None
 
         def get_ip_from_httpbin_org():
+
             response = requests.get('http://httpbin.org/ip')
             return response.json()['origin']
 
@@ -53,8 +54,5 @@ class Command(BaseCommand):
             if ip:
                 break
 
-        if IPStatEntry.data.filter(recorded_ip_address=ip, created__gte=date.today()).exists():
-            print 'hab ich schon ..'
-        else:
+        if not IPStatEntry.data.filter(recorded_ip_address=ip, created__gte=date.today()).exists():
             entry = IPStatEntry.data.create(recorded_ip_address=ip)
-            print 'neuer Eintrag: %s - %s' % (str(entry.created.date()), ip)
