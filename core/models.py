@@ -14,6 +14,9 @@ class DataManager(models.Manager):
     def get_query_set(self):
         qs = super(DataManager, self).get_query_set()
         return qs.filter(active=True)
+        
+    def delete(self):
+        self.update(active=False)
 
 
 class AllObjectsManager(models.Manager):
